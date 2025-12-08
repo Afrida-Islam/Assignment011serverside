@@ -1,5 +1,5 @@
 const express = require("express");
-const { MongoClient, ServerApiVersion } = require("mongodb");
+const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 const cors = require("cors");
 const app = express();
 const port = 3000;
@@ -33,6 +33,14 @@ async function run() {
       res.send(result);
     });
 
+    app.get("/data/:id", async (req, res) => {
+      const { id } = req.params;
+      console.log(id);
+      const result = await universityCollection.findOne({
+        _id: new ObjectId(id),
+      });
+      res.send(result);
+    });
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
     console.log(
